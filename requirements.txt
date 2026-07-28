@@ -1,0 +1,26 @@
+# Media Fabrique Template — Sprint 2
+# Python 3.11+
+
+# --- HTTP / parsing ---
+requests==2.32.3         # LLM/WP/image HTTP (pin: CVE-2024-35195 fix, <2.32.0 leaks Session.verify)
+feedparser>=6.0          # RSS sources
+beautifulsoup4>=4.12     # article body extraction
+lxml>=5.0                # lxml parser for BS4
+readability-lxml>=0.8    # fallback article extractor
+python-dotenv>=1.0       # .env loading
+tenacity>=8.2            # retries for flaky APIs
+
+# --- LLM ---
+openai>=1.40             # we use the OpenAI-compatible SDK against several providers
+
+# --- Images (Sprint 3) ---
+Pillow>=10.0             # fallback image processing / watermarks
+
+# --- WordPress (Sprint 4) ---
+# (uses requests + Basic Auth via Application Passwords)
+
+# --- Logging / UX ---
+loguru>=0.7              # nice logging (optional; standard logging is fine too)
+
+# --- Misc ---
+pydantic>=2.7            # validate LLM JSON contract

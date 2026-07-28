@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches: [main, public-release]
+  pull_request:
+    branches: [main]
+
+jobs:
+  smoke:
+    name: Smoke tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run smoke tests
+        env:
+          # Smoke tests use isolated DB; no real secrets needed.
+          # Provide placeholders so config loaders don't choke.
+          LLM_API_KEY: smoke-test-placeholder
+          TELEGRAM_BOT_TOKEN: smoke-test-placeholder
+          WP_APP_PASSWORD: smoke-test-placeholder
+        run: |
+          set -e
+          passed=0
+          failed=0
+          skipped=0
+          for f in test_*_smoke.py; do
+            if [ -f "$f" ]; then
+              echo "::group::$f"
+              if python "$f" 2>&1 | tail -3; then
+                passed=$((passed + 1))
+              else
+                failed=$((failed + 1))
+                echo "::error::$f failed"
+              fi
+              echo "::endgroup::"
+            else
+              skipped=$((skipped + 1))
+            fi
+          done
+          echo "::notice::smoke tests: $passed passed, $failed failed, $skipped skipped"
+          if [ "$failed" -gt 0 ]; then
+            exit 1
+          fi
+
+  lint:
+    name: Lint (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Run ruff
+        run: |
+          ruff check . --output-format=github || true
+          # Currently advisory; do not fail the build on lint warnings.
+          # Promote to required when the codebase stabilizes.

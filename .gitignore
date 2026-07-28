@@ -1,0 +1,53 @@
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.env
+data/
+logs/
+.idea/
+.vscode/
+.DS_Store
+
+# OpenClaw workspace state — НЕ коммитим, кроме явных файлов
+workspace/memory/.dreams/
+workspace/logs/
+workspace/.openclaw/
+workspace/skills/
+
+# OpenClaw workspace agent-runtime (personal/dream — not project).
+# Будь внимателен: на маке 2 агента (main, agent-mf) и у каждого свой workspace/.
+# В репо — ТОЛЬКО то что относится к агенту, чей код/проект
+# лежит в корне этого репо. Состояние чужого агента не должно утекать.
+workspace/
+!workspace/.gitkeep   # sentinel если папка нужна пустой в репо
+
+# Sprint 9 — DD-private operational stuff (OUT of public scope)
+notes/
+memory/
+TECH_DEBT.md
+COMMIT_MSG.md
+COMMIT_MSG_HUMAN.md
+EXPORT.md
+notes_ideas.py
+deploy/COMMIT_MSG.md
+deploy/COMMIT_MSG_HUMAN.md
+deploy/openclaw-state-init.sh
+scripts/wipe_*.sh
+scripts/wipe_*.py
+scripts/sprint661_*.py
+
+# Backup-файлы (untracked, но для порядка)
+*.bak-*
+*.bak
+
+# Debug/utility скрипты (отладочные)
+check_db.py
+
+# Runtime-logs — feedback digest cron артефакты
+notes/technical/feedback-digest/
+
+# Локальный backup БД (после больших операций)
+data/*.db.bak-*
+data/*.db-*

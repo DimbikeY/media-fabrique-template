@@ -1,0 +1,45 @@
+cff-version: 1.2.0
+message: >-
+  If you use this template in research, blog posts, or case studies,
+  please cite it as below. The DOI is optional — GitHub will mint one
+  automatically once you publish a release.
+type: software
+title: "Media Fabrique Template"
+abstract: >-
+  Self-hosted RSS → LLM-rewriter → WordPress / Telegram pipeline. A
+  template for building topic-specific news automation on a single VPS.
+  SQLite for state, system cron for orchestration, OpenAI-compatible
+  LLM, Telegraph mirror for Instant View without Premium.
+authors:
+  - name: "Media Fabrique Authors"
+    alias: "media-fabrique"
+date-released: 2026-07-26
+version: 1.0.0
+license: MIT
+url: "https://github.com/DimbikeY/media-fabrique-template"
+repository-code: "https://github.com/DimbikeY/media-fabrique-template"
+keywords:
+  - rss
+  - telegram
+  - wordpress
+  - llm
+  - openai
+  - sqlite
+  - pipeline
+  - news-automation
+  - template
+  - starter
+  - self-hosted
+references:
+  - type: software
+    title: "OpenAI Python SDK"
+    url: "https://github.com/openai/openai-python"
+  - type: software
+    title: "feedparser"
+    url: "https://github.com/kurtmckee/feedparser"
+  - type: software
+    title: "Pillow"
+    url: "https://github.com/python-pillow/pillow"
+  - type: software
+    title: "Telegraph API"
+    url: "https://telegra.ph/api"

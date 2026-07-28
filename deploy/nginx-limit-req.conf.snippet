@@ -1,0 +1,29 @@
+# nginx-limit-req.conf.snippet — добавить в /etc/nginx/sites-available/your-domain.tld
+# Внутри server {} блока, до location / {}
+#
+# Sprint 6m security audit E5: rate limiting для будущего FastAPI webhook
+# (POST /feedback). Сейчас не активен, но шаблон готов.
+#
+# Лимит: 10 запросов/сек на IP, burst 20.
+# Для публичного endpoint (за интернетом) это нормально; для localhost
+# (когда OpenClaw на VPS-A стучится на VPS-B) — лимит не проблема, т.к.
+# один IP.
+
+limit_req_zone $binary_remote_addr zone=feedback:10m rate=10r/s;
+
+# В server {}:
+#     location /feedback {
+#         limit_req zone=feedback burst=20 nodelay;
+#         limit_req_status 429;
+#
+#         proxy_pass http://127.0.0.1:8000;
+#         proxy_set_header Host $host;
+#         proxy_set_header X-Real-IP $remote_addr;
+#         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#         proxy_set_header X-Forwarded-Proto $scheme;
+#     }
+#
+#     location /feedback/healthz {
+#         # healthz — без лимита (для мониторинга)
+#         proxy_pass http://127.0.0.1:8000;
+#     }
